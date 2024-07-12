@@ -1,4 +1,4 @@
-# setup.py
+# This is a application creator for mac but I couldn't make it work
 from setuptools import setup
 
 APP = ['Main.py']
