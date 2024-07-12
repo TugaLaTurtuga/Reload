@@ -1,0 +1,3 @@
+# *ONLY WORKS ON WINDOWS* #
+
+Make a alias of the windows_run.bat and change the name of the alias to 'Reload'

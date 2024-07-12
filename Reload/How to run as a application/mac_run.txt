@@ -1,0 +1,6 @@
+
+# *ONLY WORKS ON MAC* #
+# Put this lines of code in Script Editor and save it as application #
+
+
+do shell script "chmod +x /Users/$(whoami)/Documents/Reload/unix_run.sh" # Gives executive powers to mac_run.shdo shell script "/Users/$(whoami)/Documents/Reload/unix_run.sh" # Runs mac_run.shtell me to quit

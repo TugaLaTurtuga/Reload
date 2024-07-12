@@ -1,0 +1,13 @@
+# *ONLY WORKS ON LINUX* #
+# as Reload.desktop #
+
+[Desktop Entry]
+Version=1.0
+Name=Reload
+Comment=Run the setup and Main.py script
+Exec=/home/$(whoami)/Documents/Reload/unix_run.sh
+Icon=utilities-terminal
+Terminal=true
+Type=Application
+
+chmod +x ~/path_to_folder/Reload.desktop
