@@ -484,45 +484,46 @@ def Draw(dt, screen):
                     text_y = start_y + (row + 1) * (
                                 cell_height + distance_from_up // 4) - slider.get_value() + space_between_text_and_row + 10 + (
                                  times_text_and_row)
-                    text_between = font.render(amount_of[amount_of_count], True, Text_color)
                     amount_of_count += 1
-                    text_between_rect = text_between.get_rect()
-                    text_between_rect.centery = text_y
-                    text_between_rect.x = 90
-                    screen.blit(text_between, text_between_rect)
+                    if text_y < 500 and text_y > 0:
+                        text_between = font.render(amount_of[amount_of_count - 1], True, Text_color)
+                        text_between_rect = text_between.get_rect()
+                        text_between_rect.centery = text_y
+                        text_between_rect.x = 90
+                        screen.blit(text_between, text_between_rect)
             done_it = True
 
             cell_y = start_y + row * (
                     cell_width + distance_from_up // 4) + distance_from_up // 2 - slider.get_value() + times_text_and_row
             cell_x = col * (cell_width + distance_from_left // 4) + distance_from_left // 2 + (padding * 2)
-            pygame.draw.rect(screen, Graph_color, (cell_x, cell_y, cell_width, cell_height),
-                             border_radius=border_radius, width=2)
-
-            # Blit the image in each cell
-            album_path = A_a[A_a_count]
-            image_path = os.path.join(album_path, 'icon.png')
-            if os.path.exists(image_path):
-                image = make_icon(image_path, int(cell_width), border_radius)
-            else:
-                image = make_icon('Images/Volume/full_volume.png', int(cell_width), border_radius)
-            A_a_count += 1
-
-            screen.blit(image, (cell_x, cell_y))
-            if button_states[row][col]:
-                screen.blit(star, (cell_x + cell_width * 0.8, cell_y + cell_width * 0.075))
-            if button_p[row][col]:
-                path_components = album_path.split('/')
-                if path_components[1] == 'Album':
-                    album_path = os.path.join(album_path, 'Album.mp3')
-                else:
-                    album_path = os.path.join(album_path, 'Single.mp3')
-                if Menus.current_album_name == album_path and not ForderFinder.is_paused:
-                    play_path = 'Images/Pause.png'
-                else:
-                    play_path = 'Images/Play.png'
-                play = pygame.image.load(play_path).convert_alpha()
-                play = pygame.transform.scale(play, (cell_height // 4, cell_height // 4))
-                screen.blit(play, (cell_x + cell_width * 0.75, cell_y + cell_width * 0.75))
+            if cell_y < 500:
+                A_a_count += 1
+                if cell_y > -cell_width:
+                    # Blit the image in each cell
+                    album_path = A_a[A_a_count - 1]
+                    image_path = os.path.join(album_path, 'icon.png')
+                    if os.path.exists(image_path):
+                        image = make_icon(image_path, int(cell_width), border_radius)
+                    else:
+                        image = make_icon('Images/Volume/full_volume.png', int(cell_width), border_radius)
+                    screen.blit(image, (cell_x, cell_y))
+                    if button_states[row][col]:
+                        screen.blit(star, (cell_x + cell_width * 0.8, cell_y + cell_width * 0.075))
+                    if button_p[row][col]:
+                        path_components = album_path.split('/')
+                        if path_components[1] == 'Album':
+                            album_path = os.path.join(album_path, 'Album.mp3')
+                        else:
+                            album_path = os.path.join(album_path, 'Single.mp3')
+                        if Menus.current_album_name == album_path and not ForderFinder.is_paused:
+                            play_path = 'Images/Pause.png'
+                        else:
+                            play_path = 'Images/Play.png'
+                        play = pygame.image.load(play_path).convert_alpha()
+                        play = pygame.transform.scale(play, (cell_height // 4, cell_height // 4))
+                        screen.blit(play, (cell_x + cell_width * 0.75, cell_y + cell_width * 0.75))
+            elif cell_y < 500:
+                return
 
 def handle_event(event, mouse_pos):
     slider.handle_event(event, mouse_pos)
