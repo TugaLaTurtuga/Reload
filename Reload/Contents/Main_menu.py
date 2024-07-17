@@ -362,7 +362,7 @@ def handle_button_click(event, mouse_pos):
             album_path = A_a[A_a_count]
             A_a_count += 1
             cell_rect = pygame.Rect(cell_x, cell_y, cell_width, cell_height)
-            if cell_rect.collidepoint(mouse_pos) and mouse_pos[1] < 500 and mouse_pos[1] < 0 and cell_y < -cell_width:
+            if cell_rect.collidepoint(mouse_pos) and mouse_pos[1] < 500:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         if button_p[row][col] == True:
