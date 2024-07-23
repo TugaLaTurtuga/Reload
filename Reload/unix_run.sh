@@ -4,8 +4,8 @@ SCRIPT_DIR=$(dirname "$0")
 
 # Function to run Update_screen.py in the background
 run_update_screen() {
-    if [ -f "$SCRIPT_DIR/Contents/Saves/Update_screen.py" ]; then
-        python3 "$SCRIPT_DIR/Contents/Saves/Update_screen.py" &
+    if [ -f "$SCRIPT_DIR/Contents/code/Saves/Update_screen.py" ]; then
+        python3 "$SCRIPT_DIR/Contents/code/Saves/Update_screen.py" &
         UPDATE_SCREEN_PID=$!
     else
         echo "Contents/Saves/Update_screen.py not found. Please check the path and try again."
@@ -67,8 +67,8 @@ stop_update_screen
 
 
 # Run the Main.py script
-if [ -f "$SCRIPT_DIR/Contents/Main.py" ]; then
-    python3 "$SCRIPT_DIR/Contents/Main.py"
+if [ -f "$SCRIPT_DIR/Contents/code/Main.py" ]; then
+    python3 "$SCRIPT_DIR/Contents/code/Main.py"
 else
     echo "Contents/Main.py not found. Please check the path and try again."
     exit 1
