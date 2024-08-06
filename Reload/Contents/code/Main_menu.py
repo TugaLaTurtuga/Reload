@@ -341,7 +341,8 @@ if os.path.exists(json_file_path):
 
 
 def handle_button_click(event, mouse_pos):
-    global button_p
+    global button_p, button_states
+    button_p = [[False for _ in range(col)] for col in grid_cols]
     times_text_and_roww = 0
     amount_of_count = 1
     A_a_count = 0
@@ -363,21 +364,21 @@ def handle_button_click(event, mouse_pos):
             A_a_count += 1
             cell_rect = pygame.Rect(cell_x, cell_y, cell_width, cell_height)
             if cell_rect.collidepoint(mouse_pos) and mouse_pos[1] < 500:
+                button_p[row][col] = True
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
-                        if button_p[row][col] == True:
-                            path_components = album_path.split('/')
-                            album_path = ForderFinder.get_music_file(album_path)
+                        path_components = album_path.split('/')
+                        album_path = ForderFinder.get_music_file(album_path)
 
-                            album_folder = os.path.dirname(album_path)
-                            album_name = album_path.split('/')[3]
+                        album_folder = os.path.dirname(album_path)
+                        album_name = album_path.split('/')[3]
 
-                            # Change menus music to selected music
-                            Menus.play_music__fisrt_time(album_path)
-                            Menus.s_Album_name = album_name
-                            Menus.s_Path_to_folder = album_folder
-                            ForderFinder.menu_music_path = album_path
-                            Menus.s_Author, Menus.s_Genre, Menus.s_Year = ForderFinder.get_music_description(album_folder)
+                        # Change menus music to selected music
+                        Menus.play_music__fisrt_time(album_path)
+                        Menus.s_Album_name = album_name
+                        Menus.s_Path_to_folder = album_folder
+                        ForderFinder.menu_music_path = album_path
+                        Menus.s_Author, Menus.s_Genre, Menus.s_Year = ForderFinder.get_music_description(album_folder)
 
                     elif event.button != 4 and event.button != 5:  # If not scrolling
                         # Change other Btns with the same album_path
@@ -436,13 +437,6 @@ def handle_button_click(event, mouse_pos):
                             except FileNotFoundError:
                                 # If the file doesn't exist, there's nothing to remove
                                 pass
-                elif not button_p[row][col]:
-                    button_p = [[False for _ in range(col)] for col in grid_cols]
-                    button_p[row][col] = True
-                return
-            if row == grid_rows - 1 and col == grid_cols[row] - 1:
-                # Perform actions for the last row and last column
-                button_p = [[False for _ in range(col)] for col in grid_cols]
                 return
             if cell_y > 500:
                 return
@@ -469,6 +463,7 @@ def Draw(dt, screen):
 
     amount_of_count = 1
     A_a_count = 0
+    pause_btn_drawn = False
     for row in range(grid_rows):
         done_it = False
         for col in range(grid_cols[row]):
@@ -506,21 +501,18 @@ def Draw(dt, screen):
                     if button_states[row][col]:
                         screen.blit(star, (cell_x + cell_width * 0.8, cell_y + cell_width * 0.075))
                     if button_p[row][col]:
-                        path_components = album_path.split('/')
-                        if path_components[1] == 'Album':
-                            album_path = os.path.join(album_path, 'Album.mp3')
-                        else:
-                            album_path = os.path.join(album_path, 'Single.mp3')
+                        album_path = ForderFinder.get_music_file(album_path)
                         if Menus.current_album_name == album_path and not ForderFinder.is_paused:
                             play_path = 'Images/Pause.png'
                         else:
                             play_path = 'Images/Play.png'
-                        play = pygame.image.load(play_path).convert_alpha()
-                        play = pygame.transform.scale(play, (cell_height // 4, cell_height // 4))
-                        screen.blit(play, (cell_x + cell_width * 0.75, cell_y + cell_width * 0.75))
+
+                        if play_path != None:
+                            play = pygame.image.load(play_path).convert_alpha()
+                            play = pygame.transform.scale(play, (cell_height // 4, cell_height // 4))
+                            screen.blit(play, (cell_x + cell_width * 0.75, cell_y + cell_width * 0.75))
             elif cell_y < 500:
                 return
-
 def handle_event(event, mouse_pos):
     slider.handle_event(event, mouse_pos)
     handle_button_click(event, mouse_pos)
